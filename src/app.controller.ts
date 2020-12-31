@@ -1,3 +1,4 @@
+import { Public } from './auth/isPublic.decorator';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { AuthService } from './auth/auth.service';
 import { Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
@@ -11,13 +12,13 @@ export class AppController {
     private authService: AuthService,
   ) {}
 
+  @Public()
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
   async login(@Request() req) {
     return this.authService.login(req.user);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get('profile')
   getProfile(@Request() req) {
     return req.user;
@@ -28,6 +29,7 @@ export class AppController {
     return 'This action adds a new cat';
   }
 
+  @Public()
   @Get()
   findAll(): string {
     return 'This action returns all cats';
