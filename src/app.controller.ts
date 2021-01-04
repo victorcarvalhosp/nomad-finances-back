@@ -10,12 +10,15 @@ import { LocalAuthGuard } from './auth/local-auth.guard';
 export class AppController {
   constructor(
     private readonly appService: AppService,
-    private authService: AuthService,
     private userService: UsersService,
   ) {}
 
   @Get('profile')
   getProfile(@Request() req) {
+    console.log('ENV');
+    console.log(process.env.NODE_ENV);
+
+    console.log(process.env.TEST);
     return req.user;
   }
 

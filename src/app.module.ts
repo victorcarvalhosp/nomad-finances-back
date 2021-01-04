@@ -1,3 +1,4 @@
+import { getDbConfig } from './constants';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
@@ -8,9 +9,18 @@ import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 import { AuthControllerController } from './auth/auth.controller';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [AuthModule, UsersModule, TypeOrmModule.forRoot()],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: `.env.${process.env.NODE_ENV}`,
+    }),
+    AuthModule,
+    UsersModule,
+    TypeOrmModule.forRoot(getDbConfig()),
+  ],
   controllers: [AppController, AuthControllerController],
   providers: [
     AppService,
