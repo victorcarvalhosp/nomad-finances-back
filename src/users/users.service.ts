@@ -8,19 +8,6 @@ import { User } from './user.entity';
 
 @Injectable()
 export class UsersService {
-  private readonly users = [
-    {
-      userId: 1,
-      username: 'john',
-      password: 'changeme',
-    },
-    {
-      userId: 2,
-      username: 'maria',
-      password: 'guess',
-    },
-  ];
-
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
@@ -34,11 +21,11 @@ export class UsersService {
     return this.usersRepository.find();
   }
 
-  findOneByUsername(username: string): Promise<User> {
+  findOneByUsername(username: string): Promise<User | undefined> {
     return this.usersRepository.findOne({ username: username });
   }
 
-  findOne(id: string): Promise<User> {
+  findOne(id: string): Promise<User | undefined> {
     return this.usersRepository.findOne(id);
   }
 
