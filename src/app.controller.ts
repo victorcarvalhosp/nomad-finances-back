@@ -1,3 +1,4 @@
+import { UsersService } from './users/users.service';
 import { Public } from './auth/isPublic.decorator';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { AuthService } from './auth/auth.service';
@@ -10,6 +11,7 @@ export class AppController {
   constructor(
     private readonly appService: AppService,
     private authService: AuthService,
+    private userService: UsersService,
   ) {}
 
   @Public()
@@ -24,9 +26,10 @@ export class AppController {
     return req.user;
   }
 
+  @Public()
   @Post()
-  create(): string {
-    return 'This action adds a new cat';
+  async save(@Request() req) {
+    return await this.userService.save(req.body);
   }
 
   @Public()
